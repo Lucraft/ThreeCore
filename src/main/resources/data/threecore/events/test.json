@@ -1,0 +1,19 @@
+{
+  "entities" : {
+    "pig" : {
+      "type" : "minecraft:pig",
+      "id" : "dead_pig",
+      "x" : 0,
+      "y" : 0,
+      "z" : 0
+    }
+  },
+
+  "triggers" : {
+    "kill_all_piggies" : {
+      "type" : "threecore:trigger_kill",
+      "effect" : "threecore:triggerEffect_karma",
+      "ids" : "deadpig"
+    }
+  }
+}

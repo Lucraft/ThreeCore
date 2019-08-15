@@ -2,12 +2,10 @@ package com.threetag.threecore;
 
 import com.threetag.threecore.abilities.ThreeCoreAbilities;
 import com.threetag.threecore.base.ThreeCoreBase;
+import com.threetag.threecore.events.ThreeCoreEvents;
 import com.threetag.threecore.karma.ThreeCoreKarma;
 import com.threetag.threecore.util.SupporterHandler;
 import com.threetag.threecore.util.recipe.RecipeUtil;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -43,6 +41,7 @@ public class ThreeCore {
         new ThreeCoreBase();
         new ThreeCoreAbilities();
         new ThreeCoreKarma();
+        new ThreeCoreEvents();
     }
 
     public static <MSG> int registerMessage(Class<MSG> messageType, BiConsumer<MSG, PacketBuffer> encoder, Function<PacketBuffer, MSG> decoder, BiConsumer<MSG, Supplier<NetworkEvent.Context>> messageConsumer) {
