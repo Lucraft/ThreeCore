@@ -1,5 +1,6 @@
 package net.threetag.threecore.sizechanging;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.HangingEntity;
@@ -8,6 +9,9 @@ import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityEvent;
@@ -32,7 +36,7 @@ public class SizeChangingEventHandler {
     }
 
     public static boolean canSizeChange(Entity entity) {
-        if(entity instanceof HangingEntity)
+        if (entity instanceof HangingEntity)
             return false;
         return true;
     }
@@ -96,6 +100,20 @@ public class SizeChangingEventHandler {
                 sizeChanging.setSizeDirectly(sizeChanging1.getSizeChangeType(), sizeChanging1.getScale());
             });
         });
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @SubscribeEvent
+    public void onRenderPre(RenderLivingEvent.Pre e) {
+        GlStateManager.pushMatrix();
+        SizeManager.scaleEntity(e.getEntity(), e.getX(), e.getY(), e.getZ());
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @SubscribeEvent
+    public void onRenderPost(RenderLivingEvent.Post e) {
+        if(e.getEntity().getCapability(CapabilitySizeChanging.SIZE_CHANGING).isPresent())
+            GlStateManager.popMatrix();
     }
 
 }
